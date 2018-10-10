@@ -14,7 +14,7 @@ import java.util.stream.Stream;
 import com.codecool.items.ItemStore;
 import com.codecool.items.Item;
 
-@WebServlet(name = "webshopservlet", urlPatterns = {"/"}, loadOnStartup = 1)
+@WebServlet(name = "webshopservlet", urlPatterns = {"/webshop"}, loadOnStartup = 1)
 public class WebShopServlet extends HttpServlet {
     private List<Item> listItems = new ArrayList<>();
 
@@ -22,6 +22,8 @@ public class WebShopServlet extends HttpServlet {
     public void init() throws ServletException {
         listItems.add(new Item("Harry Potter", 150.0));
         listItems.add(new Item("And again", 200));
+        ItemStore.add(listItems.get(0));
+        ItemStore.add(listItems.get(1));
     }
 
     @Override
@@ -30,24 +32,23 @@ public class WebShopServlet extends HttpServlet {
         PrintWriter out = response.getWriter();
         String title = "Welcome to our Webshop";
         StringBuffer webshopTable = new StringBuffer();
-        webshopTable.append("<table>\n<thead>\n<th>Name</th><th>Price</th><th></th><th></th></thead><tbody>");
+        webshopTable.append("<table>\n<thead>\n<th>Name</th><th>Price</th></thead><tbody>");
         for (Item item : listItems) {
             webshopTable.append("<tr>");
             webshopTable.append("<td>" + item.getName() + "</td>");
             webshopTable.append("<td>" + item.getPrice() + "</td>");
-            webshopTable.append("<td><button>Add</button></td>");
-            webshopTable.append("<td><button>Remove</button></td>");
+            webshopTable.append("<td><input type=\"submit\" name=\"add\">Add</button></td>");
+            webshopTable.append("<td><input type=\"submit\" name=\"remove\">Remove</button></td>");
             webshopTable.append("</tr>");
         }
 
         out.println(
                 "<html>\n" +
-                "<head><title>" + title + "</title></head>\n" +
-                "<body>\n" +
-                "<h1 align = \"center\">" + title + "</h1>\n" +
-                "<div>" + webshopTable.toString() + "</div>" +
-                "</body></html>");
+                        "<head><title>" + title + "</title></head>\n" +
+                        "<body>\n" +
+                        "<h1 align = \"center\">" + title + "</h1>\n" +
+                        "<div>" + webshopTable.toString() + "</div>" +
+                        "</body></html>");
 
     }
-
 }
