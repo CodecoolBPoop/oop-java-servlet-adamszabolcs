@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Stream;
 
 import com.codecool.items.ItemStore;
 import com.codecool.items.Item;
@@ -22,8 +21,6 @@ public class WebShopServlet extends HttpServlet {
     public void init() throws ServletException {
         listItems.add(new Item("Harry Potter", 150.0));
         listItems.add(new Item("And again", 200));
-        ItemStore.add(listItems.get(0));
-        ItemStore.add(listItems.get(1));
     }
 
     @Override
@@ -37,10 +34,15 @@ public class WebShopServlet extends HttpServlet {
             webshopTable.append("<tr>");
             webshopTable.append("<td>" + item.getName() + "</td>");
             webshopTable.append("<td>" + item.getPrice() + "</td>");
-            webshopTable.append("<td><input type=\"submit\" name=\"add\">Add</button></td>");
-            webshopTable.append("<td><input type=\"submit\" name=\"remove\">Remove</button></td>");
+            webshopTable.append("<form action=\"webshop\">");
+            webshopTable.append("<td><button type=\"submit\" name=\"add\" value=\"" + item.getId() + "\">Add</button></td>");
+            webshopTable.append("</form><form action=\"webshop\">");
+            webshopTable.append("<td><button type=\"submit\" name=\"remove\" value=\"" + item.getId() + "\">Remove</button></td>");
+            webshopTable.append("</form>");
             webshopTable.append("</tr>");
         }
+
+        String addIndex = request.getParameter("add");
 
         out.println(
                 "<html>\n" +
@@ -48,7 +50,12 @@ public class WebShopServlet extends HttpServlet {
                         "<body>\n" +
                         "<h1 align = \"center\">" + title + "</h1>\n" +
                         "<div>" + webshopTable.toString() + "</div>" +
+                        (addIndex != null ?
+                                "<div>" + listItems.get(Integer.parseInt(addIndex)).getName() + " added to Your cart!</div>" :
+                                "<div></div>") +
+                        "<a href=\"/cart\">Go to cart page</a>" +
                         "</body></html>");
 
     }
+
 }
