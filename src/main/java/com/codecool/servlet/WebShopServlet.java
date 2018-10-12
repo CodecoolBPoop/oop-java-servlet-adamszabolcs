@@ -15,17 +15,12 @@ import com.codecool.items.Item;
 
 @WebServlet(name = "webshopservlet", urlPatterns = {"/webshop"}, loadOnStartup = 1)
 public class WebShopServlet extends HttpServlet {
-    private List<Item> listItems = new ArrayList<>();
+    public static List<Item> listItems = new ArrayList<>();
 
     @Override
     public void init() throws ServletException {
         listItems.add(new Item("Harry Potter", 150.0));
         listItems.add(new Item("And again", 200));
-        ItemStore.add(listItems.get(0));
-        ItemStore.add(listItems.get(0));
-        ItemStore.add(listItems.get(0));
-        ItemStore.add(listItems.get(1));
-        ItemStore.add(listItems.get(1));
     }
 
     @Override
@@ -40,9 +35,9 @@ public class WebShopServlet extends HttpServlet {
             webshopTable.append("<td>" + item.getName() + "</td>");
             webshopTable.append("<td>" + item.getPrice() + "</td>");
             webshopTable.append("<form action=\"webshop\">");
-            webshopTable.append("<td><button type=\"submit\" name=\"add\" value=\"" + item.getId() + "\">Add</button></td>");
+            webshopTable.append("<td><button class=\"add\" id=\"" + item.getId() + "\">Add</button></td>");
             webshopTable.append("</form><form action=\"webshop\">");
-            webshopTable.append("<td><button type=\"submit\" name=\"remove\" value=\"" + item.getId() + "\">Remove</button></td>");
+            webshopTable.append("<td><button class=\"remove\" id=\"" + item.getId() + "\">Remove</button></td>");
             webshopTable.append("</form>");
             webshopTable.append("</tr>");
         }
@@ -51,13 +46,14 @@ public class WebShopServlet extends HttpServlet {
 
         out.println(
                 "<html>\n" +
-                        "<head><title>" + title + "</title></head>\n" +
+                        "<head><title>" + title + "</title>" +
+                        "<script type=\"text/javascript\" src=\"static/javascript/buttonHandler.js\" defer></script>\n" +
+                        "<script src=\"https://code.jquery.com/jquery-3.3.1.js\"" +
+                        "integrity=\"sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=\"" +
+                        "crossorigin=\"anonymous\"></script>" +
                         "<body>\n" +
                         "<h1 align = \"center\">" + title + "</h1>\n" +
                         "<div>" + webshopTable.toString() + "</div>" +
-                        (addIndex != null ?
-                                "<div>" + listItems.get(Integer.parseInt(addIndex)).getName() + " added to Your cart!</div>" :
-                                "<div></div>") +
                         "<a href=\"/cart\">Go to cart page</a>" +
                         "</body></html>");
 
