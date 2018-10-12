@@ -12,19 +12,20 @@ import java.util.List;
 
 import com.codecool.items.ItemStore;
 import com.codecool.items.Item;
+import com.codecool.items.OrderableItems;
 
-@WebServlet(name = "webshopservlet", urlPatterns = {"/webshop"}, loadOnStartup = 1)
+@WebServlet(name = "webshopservlet", urlPatterns = {"/webshop"})
 public class WebShopServlet extends HttpServlet {
     public static List<Item> listItems = new ArrayList<>();
 
     @Override
     public void init() throws ServletException {
-        listItems.add(new Item("Harry Potter", 150.0));
-        listItems.add(new Item("And again", 200));
+        listItems.clear();
+        listItems = OrderableItems.createItems();
     }
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    protected void service(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
         PrintWriter out = response.getWriter();
         String title = "Welcome to our Webshop";
@@ -37,7 +38,7 @@ public class WebShopServlet extends HttpServlet {
             webshopTable.append("<form action=\"webshop\">");
             webshopTable.append("<td><button class=\"add\" id=\"" + item.getId() + "\">Add</button></td>");
             webshopTable.append("</form><form action=\"webshop\">");
-            webshopTable.append("<td><button class=\"remove\" id=\"" + item.getId() + "\">Remove</button></td>");
+            webshopTable.append("<td><button class=\"remove\" id=\"" + item.getId() + "\"" + (ItemStore.isItemInItemList(item.getId()) ? "" : "disabled") + ">Remove</button></td>");
             webshopTable.append("</form>");
             webshopTable.append("</tr>");
         }
