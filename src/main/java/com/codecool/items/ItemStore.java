@@ -18,4 +18,13 @@ public class ItemStore {
     public static List<Item> getItemList() {
         return itemList;
     }
+
+    public static boolean isItemInItemList(int id) {
+        for (Item item : itemList) {
+            if (item.getId() == id) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
