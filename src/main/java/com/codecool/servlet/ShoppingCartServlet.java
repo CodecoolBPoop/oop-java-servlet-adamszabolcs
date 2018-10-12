@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
+import java.util.stream.Stream;
 
 @WebServlet(name = "cart", urlPatterns = {"/cart"}, loadOnStartup = 2)
 public class ShoppingCartServlet extends HttpServlet {
@@ -19,6 +20,11 @@ public class ShoppingCartServlet extends HttpServlet {
         List<Item> cartList = ItemStore.getItemList();
         PrintWriter out = response.getWriter();
         String title = "Cart page";
+        int sumPrice = 0;
+        for (Item item : cartList) {
+            sumPrice += item.getPrice();
+        }
+        String totalCart = "The total price of the cart is: ";
 
         StringBuffer cartPage = new StringBuffer();
         cartPage.append("<table>");
@@ -38,6 +44,7 @@ public class ShoppingCartServlet extends HttpServlet {
                 "<body>" +
                 "<h1 align=\"center\">" + title + "</h1>" +
                 "<div>" + cartPage.toString() + "</div>" +
+                "<div>" + totalCart + sumPrice + "</div>" +
                 "</body>" +
                 "</html>");
     }
