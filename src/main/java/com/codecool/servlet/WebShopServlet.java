@@ -21,6 +21,11 @@ public class WebShopServlet extends HttpServlet {
     public void init() throws ServletException {
         listItems.add(new Item("Harry Potter", 150.0));
         listItems.add(new Item("And again", 200));
+        ItemStore.add(listItems.get(0));
+        ItemStore.add(listItems.get(0));
+        ItemStore.add(listItems.get(0));
+        ItemStore.add(listItems.get(1));
+        ItemStore.add(listItems.get(1));
     }
 
     @Override
