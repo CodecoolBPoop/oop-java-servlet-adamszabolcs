@@ -1,3 +1,4 @@
+/*
 package com.codecool.servlet;
 
 import javax.servlet.annotation.WebServlet;
@@ -39,3 +40,4 @@ public class AnotherServlet extends HttpServlet {
         );
     }
 }
+*/
